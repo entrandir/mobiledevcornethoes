@@ -2,96 +2,19 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Restaurant picker</title>
+		<title>Be On Time</title>
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-
 		1.4.5.min.css" />
 		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-
 		1.4.5.min.js"></script>
+		<script src ="jsalarm.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<style type="text/css">
-			.ui-page {
-				background: url(images/bg.png) no-repeat center center fixed;
-				-webkit-background-size: cover;
-				-moz-background-size: cover;
-				-o-background-size: cover;
-				background-size: cover;
-				width: 100%;
-				height: 100%;
-			}
 			h1 {
 				text-align: center;
 			}
 		</style>
-		<script type="text/javascript">
-			/***********************************************
-
-			 * JavaScript Alarm Clock- by JavaScript Kit (www.javascriptkit.com)
-			 * This notice must stay intact for usage
-			 * Visit JavaScript Kit at http://www.javascriptkit.com/ for this script and 100s more
-
-			 ***********************************************/
-
-			var jsalarm = {
-				padfield : function(f) {
-					return (f < 10) ? "0" + f : f
-				},
-				showcurrenttime : function() {
-					var dateobj = new Date()
-					var ct = this.padfield(dateobj.getHours()) + ":" + this.padfield(dateobj.getMinutes())
-					this.ctref.innerHTML = ct
-					this.ctref.setAttribute("title", ct)
-					if ( typeof this.hourwake != "undefined") {//if alarm is set
-						if (this.ctref.title == (this.hourwake + ":" + this.minutewake)) {
-							clearInterval(jsalarm.timer)
-							window.location = document.getElementById("musicloc").value
-						}
-					}
-				},
-				init : function() {
-					var dateobj = new Date()
-					this.ctref = document.getElementById("jsalarm_ct")
-					this.submitref = document.getElementById("submitbutton")
-					this.submitref.onclick = function() {
-						jsalarm.setalarm()
-						this.value = "Alarm Set"
-						this.disabled = true
-						return false
-					}
-					this.resetref = document.getElementById("resetbutton")
-					this.resetref.onclick = function() {
-						jsalarm.submitref.disabled = false
-						jsalarm.hourwake = undefined
-						jsalarm.hourselect.disabled = false
-						jsalarm.minuteselect.disabled = false
-						jsalarm.secondselect.disabled = false
-						return false
-					}
-					var selections = document.getElementsByTagName("select")
-					this.hourselect = selections[0]
-					this.minuteselect = selections[1]
-					for (var i = 0; i < 60; i++) {
-						if (i < 24)//If still within range of hours field: 0-23
-							this.hourselect[i] = new Option(this.padfield(i), this.padfield(i), false, dateobj.getHours() == i)
-						this.minuteselect[i] = new Option(this.padfield(i), this.padfield(i), false, dateobj.getMinutes() == i)
-
-					}
-					jsalarm.showcurrenttime()
-					jsalarm.timer = setInterval(function() {
-						jsalarm.showcurrenttime()
-					}, 1000)
-				},
-				setalarm : function() {
-					this.hourwake = this.hourselect.options[this.hourselect.selectedIndex].value
-					this.minutewake = this.minuteselect.options[this.minuteselect.selectedIndex].value
-					this.secondwake = this.secondselect.options[this.secondselect.selectedIndex].value
-					this.hourselect.disabled = true
-					this.minuteselect.disabled = true
-					this.secondselect.disabled = true
-				}
-			}
-
-		</script>
 	</head>
 	<body>
 		<div data-role="page" id="home" data-add-back-btn="true">
@@ -122,29 +45,6 @@
 						</div>
 				</form>
 			</header>
-			<div data-role="fieldcontain">
-				<fieldset data-role="controlgroup" data-type="horizontal">
-						<h2>How much earlier do you want the alarm to go off? Format Hour/min</h2>
-					<label for="select-choice-month">Month</label>
-					<select name="select-choice-month" id="select-choice-month">
-						<option>Month</option>
-						<option value="jan">January</option>
-						<!-- etc. -->
-					</select>
-
-					<label for="select-choice-day">Day</label>
-					<select name="select-choice-day" id="select-choice-day">
-						<option>Day</option>
-						<option value="1">1</option>
-						<!-- etc. -->
-					</select>
-				</fieldset>
-				<ul data-role="listview" data-inset="true" data-role="controlgroup">
-					<label>
-						<input type="checkbox" name="checkbox-1" />
-						Use snow warning </label>
-				</ul>
-			</div>
 			<div data-role="panel" id="myPanel">
 				<h2>Weather options</h2>
 				<ul data-role="listview" data-inset="true">
@@ -155,7 +55,7 @@
 						<input type="checkbox" name="checkbox-1" />
 						Raining </label>
 					<label>
-						<input type=s"checkbox" name="checkbox-1" />
+						<input type="checkbox" name="checkbox-1" />
 						Traffic jam </label>
 					<label>
 						<input type="checkbox" name="checkbox-1" />
@@ -181,6 +81,33 @@
 					</div>
 				</form>
 			</div>
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal">
+					<ul data-role="listview" data-inset="true">
+						<li data-inset="true">
+							How much earlier do you want the alarm to go off?
+						</li>
+					</ul>
+					<label for="select-choice-month">Hour</label>
+					<select name="select-choice-month" id="select-choice-month">
+						<option>Month</option>
+						<option value="jan">January</option>
+						<!-- etc. -->
+					</select>
+
+					<label for="select-choice-day">Minute</label>
+					<select name="select-choice-day" id="select-choice-day">
+						<option>Day</option>
+						<option value="1">1</option>
+						<!-- etc. -->
+					</select>
+				</fieldset>
+			</div>
+			<ul data-role="listview" data-inset="true" data-role="controlgroup">
+				<label>
+					<input type="checkbox" name="checkbox-1" />
+					Use snow warning </label>
+			</ul>
 		</div><!-- page -->
 		<script type="text/javascript">
 			jsalarm.init()
