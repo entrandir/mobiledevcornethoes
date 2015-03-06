@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Be On Time</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+		<style>
+			img.fullscreen {
+				max-height: 100%;
+				max-width: 100%;
+			}
+		</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<script type="text/javascript">
+
+/***********************************************
+
+* JavaScript Alarm Clock- by JavaScript Kit (www.javascriptkit.com)
+* This notice must stay intact for usage
+* Visit JavaScript Kit at http://www.javascriptkit.com/ for this script and 100s more
+
+***********************************************/
+
+var jsalarm={
+	padfield:function(f){
+		return (f<10)? "0"+f : f
+	},
+	showcurrenttime:function(){
+		var dateobj=new Date()
+		var ct=this.padfield(dateobj.getHours())+":"+this.padfield(dateobj.getMinutes())+":"+this.padfield(dateobj.getSeconds())
+		this.ctref.innerHTML=ct
+		this.ctref.setAttribute("title", ct)
+		if (typeof this.hourwake!="undefined"){ //if alarm is set
+			if (this.ctref.title==(this.hourwake+":"+this.minutewake+":"+this.secondwake)){
+				clearInterval(jsalarm.timer)
+				window.location=document.getElementById("musicloc").value
+			}
+		}
+	},
+	init:function(){
+		var dateobj=new Date()
+		this.ctref=document.getElementById("jsalarm_ct")
+		this.submitref=document.getElementById("submitbutton")
+		this.submitref.onclick=function(){
+			jsalarm.setalarm()
+			this.value="Alarm Set"
+			this.disabled=true
+			return false
+		}
+		this.resetref=document.getElementById("resetbutton")
+		this.resetref.onclick=function(){
+		jsalarm.submitref.disabled=false
+		jsalarm.hourwake=undefined
+		jsalarm.hourselect.disabled=false
+		jsalarm.minuteselect.disabled=false
+		jsalarm.secondselect.disabled=false
+		return false
+		}
+		var selections=document.getElementsByTagName("select")
+		this.hourselect=selections[0]
+		this.minuteselect=selections[1]
+		this.secondselect=selections[2]
+		for (var i=0; i<60; i++){
+			if (i<24) //If still within range of hours field: 0-23
+			this.hourselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getHours()==i)
+			this.minuteselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getMinutes()==i)
+			this.secondselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getSeconds()==i)
+
+		}
+		jsalarm.showcurrenttime()
+		jsalarm.timer=setInterval(function(){jsalarm.showcurrenttime()}, 1000)
+	},
+	setalarm:function(){
+		this.hourwake=this.hourselect.options[this.hourselect.selectedIndex].value
+		this.minutewake=this.minuteselect.options[this.minuteselect.selectedIndex].value
+		this.secondwake=this.secondselect.options[this.secondselect.selectedIndex].value
+		this.hourselect.disabled=true
+		this.minuteselect.disabled=true
+		this.secondselect.disabled=true
+	}
+}
+
+</script>
+	</head>
+	<body>
+		<div data-role="page" id="photos">
+			<header data-role="header" data-position="fixed">
+				<h1>Be On Time</h1>
+				<nav data-role="navbar">
+					<ul>
+						<li>
+							<a href="home" data-icon="home">Home</a>
+						</li>
+						<li>
+							<a href="photos" data-icon="grid">Photos</a>
+						</li>
+						<li>
+							<a href="info" data-icon="info">Info</a>
+						</li>
+					</ul>
+
+				</nav>
+			</header>
+											<form action="" method="">
+					<div id="jsalarmclock">
+						<div>
+							<div class="leftcolumn">
+								Current Time:
+							</div>
+							<span id="jsalarm_ct" style="letter-spacing: 2px"></span>
+						</div>
+						<div>
+							<span> Hour<select></select></span> <span> Minutes<select></select></span> <span> Seconds<select></select></span>
+														
+						</div>
+						<div>
+							<div class="leftcolumn">
+								Set Alarm Action:
+							</div>
+							<input type="text" id="musicloc" size="55" value="http://www.youtube.com/watch?v=v1zY_tV5kaQ" />
+							<span style="font: normal 11px Tahoma">*Location of page to launch</span>
+						</div>
+						<input type="submit" value="Set Alarm!" id="submitbutton" />
+						<input type="reset" value="reset" id="resetbutton" />
+					</div>
+				</form>
+
+				<script type="text/javascript">
+					jsalarm.init()
+
+				</script>
+			<article data-role="content">
+				<form>
+					Select a time:
+					<input type="time" name="usr_time">
+				</form>
+				<ul data-role="listview" data-filter="true">
+					<li>
+						<a href="#led-tv"> <h1>Sharp brings biggest LED TV</h1> <img src="images/led_tv_tn.jpg" alt="LED TV" />
+						<p>
+							The biggest LED TV is about 90-inch and
+							has been released by Sharp
+						</p> </a>
+					</li>
+					<li>
+						<a href="#dj-competition"> <h1>DJ competition</h1> <img src="images/dj_panel_tn.jpg" alt="DJ Panel" />
+						<p>
+							DJs around the world are asking for a place on the
+							'Bottom 100 DJs list'
+						</p> </a>
+					</li>
+					<li>
+						<a href="#smart-phone"> <h1>Smartphones are improving</h1> <img src="images/smart_phone_tn.jpg" alt="Smart Phone" />
+						<p>
+							New Smartphones are getting better specs and
+							better features
+						</p> </a>
+					</li>
+				</ul>
+			</article>
+
+		</div><!-- Page photos -->
+		<div data-role="page" id="led-tv">
+			<header data-role="header">
+				<h1>Sharp brings biggest LED TV</h1>
+				<a href="#photos" data-icon="grid" data-iconpos="notext">Photos</a>
+			</header>
+			<img src="images/led_tv.jpg" class="fullscreen" alt="LED TV" />
+		</div><!-- Page LED TV -->
+		<div data-role="page" id="dj-competition">
+			<header data-role="header">
+				<h1>DJ competition</h1>
+				<a href="#photos" data-icon="grid" data-iconpos="notext">Photos</a>
+			</header>
+			<img src="images/dj_panel.jpg" class="fullscreen" alt="DJ Panel" />
+		</div><!-- Page DJ competition -->
+		<div data-role="page" id="smart-phone">
+			<header data-role="header">
+				<h1>Smartphones are improving</h1>
+				<a href="#photos" data-icon="grid" data-iconpos="notext">Photos</a>
+			</header>
+			<img src="images/smart_phone.jpg" class="fullscreen" alt="Smart Phone" />
+		</div><!-- Page Smartphones -->
+
+	</body>
+</html>

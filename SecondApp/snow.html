@@ -10,27 +10,22 @@
 		1.4.5.min.js"></script>
 		<script src ="jsalarm.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<style type="text/css">
-			h1 {
-				text-align: center;
-			}
-		</style>
+		<link rel="stylesheet" href="background.css" />
+		<script src = "storage.js"></script>
+		<script src = "panelStorageLoad.js"></script>
 	</head>
 	<body>
-		<div data-role="page" id="home" data-add-back-btn="true">
+		<div data-role="page" id="snow" data-add-back-btn="true">
 			<header data-role="header">
 				<a href="#myPanel" class="ui-btn ui-btn-inline">Debug</a>
 				<h1>Second App</h1>
 				<nav data-role="navbar">
 					<ul>
 						<li>
-							<a href="home" data-icon="back" data-rel="back">back</a>
+							<a href="home" rel="external" data-icon="back" data-rel="back">back</a>
 						</li>
 						<li>
-							<a href="index.html" data-icon="home">Home</a>
-						</li>
-						<li>
-							<a href="info" data-icon="info">Info</a>
+							<a href="index.html" rel="external" data-icon="home">Home</a>
 						</li>
 					</ul>
 
@@ -45,22 +40,65 @@
 						</div>
 				</form>
 			</header>
-			<div data-role="panel" id="myPanel">
+			<div data-role="panel" id="myPanel" data-display="overlay">
 				<h2>Weather options</h2>
 				<ul data-role="listview" data-inset="true">
 					<label>
-						<input type="checkbox" name="checkbox-1" />
+						<input type="checkbox" name="checkboxSnowPanel" />
 						Snowing </label>
-					<label>
-						<input type="checkbox" name="checkbox-1" />
-						Raining </label>
-					<label>
-						<input type="checkbox" name="checkbox-1" />
-						Traffic jam </label>
-					<label>
-						<input type="checkbox" name="checkbox-1" />
-						Train delay </label>
+					<script>
+						$("input[name='checkboxSnowPanel']").click(function() {
 
+							if ($(this).is(":checked")) {
+								localStorage.setItem("checkboxSnowPanel", $(this).val());
+							} else {
+								localStorage.removeItem("checkboxSnowPanel");
+							}
+
+						});
+					</script>
+					<label>
+						<input type="checkbox" name="checkboxRainPanel" />
+						Raining </label>
+					<script>
+						$("input[name='checkboxRainPanel']").click(function() {
+
+							if ($(this).is(":checked")) {
+								localStorage.setItem("checkboxRainPanel", $(this).val());
+							} else {
+								localStorage.removeItem("checkboxRainPanel");
+							}
+
+						});
+					</script>
+					<label>
+						<input type="checkbox" name="checkboxTrafficPanel" />
+						Traffic jam </label>
+					<script>
+						$("input[name='checkboxTrafficPanel']").click(function() {
+
+							if ($(this).is(":checked")) {
+								localStorage.setItem("checkboxTrafficPanel", $(this).val());
+							} else {
+								localStorage.removeItem("checkboxTrafficPanel");
+							}
+
+						});
+					</script>
+					<label>
+						<input type="checkbox" name="checkboxTrainPanel" />
+						Train delay </label>
+					<script>
+						$("input[name='checkboxTrainPanel']").click(function() {
+
+							if ($(this).is(":checked")) {
+								localStorage.setItem("checkboxTrainPanel", $(this).val());
+							} else {
+								localStorage.removeItem("checkboxTrainPanel");
+							}
+
+						});
+					</script>
 				</ul>
 
 				<form action="" method="">
@@ -73,7 +111,7 @@
 							<div class="leftcolumn">
 								Set Alarm Action:
 							</div>
-							<input type="text" id="musicloc" size="55" value="http://www.youtube.com/watch?v=v1zY_tV5kaQ" />
+							<input type="text" id="musicloc" size="55" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
 							<span style="font: normal 11px Tahoma">*Location of page to launch</span>
 						</div>
 						<input type="submit" value="Set Alarm!" id="submitbutton" />
@@ -81,32 +119,49 @@
 					</div>
 				</form>
 			</div>
-			<div data-role="fieldcontain">
+
+			<div data-role="fieldcontain" >
 				<fieldset data-role="controlgroup" data-type="horizontal">
 					<ul data-role="listview" data-inset="true">
 						<li data-inset="true">
 							How much earlier do you want the alarm to go off?
 						</li>
 					</ul>
-					<label for="select-choice-month">Hour</label>
-					<select name="select-choice-month" id="select-choice-month">
-						<option>Month</option>
-						<option value="jan">January</option>
-						<!-- etc. -->
+					<select name="snow-select-choice-hour" id="snow-select-choice-hour">
+						<option>Hour(s)</option>
+					</select>
+					<script>
+						$("#snow-select-choice-hour").change(function() {
+							localStorage.setItem("snowHours", this.value);
+						});
+					</script>
+
+					<select name="snow-select-choice-minutes" id="snow-select-choice-minutes">
+						<option>Minute(s)</option>
 					</select>
 
-					<label for="select-choice-day">Minute</label>
-					<select name="select-choice-day" id="select-choice-day">
-						<option>Day</option>
-						<option value="1">1</option>
-						<!-- etc. -->
-					</select>
+					<script>
+						$("#snow-select-choice-minutes").change(function() {
+							localStorage.setItem("snowMinutes", this.value);
+						});
+					</script>
 				</fieldset>
 			</div>
 			<ul data-role="listview" data-inset="true" data-role="controlgroup">
 				<label>
-					<input type="checkbox" name="checkbox-1" />
+					<input type="checkbox" name="snowcheckboxWarning" />
 					Use snow warning </label>
+				<script>
+					$("input[name='snowcheckboxWarning']").click(function() {
+
+						if ($(this).is(":checked")) {
+							localStorage.setItem(activePage + "checkboxWarning", $(this).val());
+						} else {
+							localStorage.removeItem(activePage + "checkboxWarning");
+						}
+
+					});
+				</script>
 			</ul>
 		</div><!-- page -->
 		<script type="text/javascript">

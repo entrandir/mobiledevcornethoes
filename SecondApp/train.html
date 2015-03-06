@@ -11,10 +11,11 @@
 		<script src ="jsalarm.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel="stylesheet" href="background.css" />
+		<script src = "storage.js"></script>
 		<script src = "panelStorageLoad.js"></script>
 	</head>
 	<body>
-		<div data-role="page" id="home" data-add-back-btn="true">
+		<div data-role="page" id="train" data-add-back-btn="true">
 			<header data-role="header">
 				<a href="#myPanel" class="ui-btn ui-btn-inline">Debug</a>
 				<h1>Second App</h1>
@@ -38,7 +39,6 @@
 							<span id="jsalarm_ct" style="letter-spacing: 2px"></span>
 						</div>
 				</form>
-
 			</header>
 			<div data-role="panel" id="myPanel" data-display="overlay">
 				<h2>Weather options</h2>
@@ -74,7 +74,7 @@
 					<label>
 						<input type="checkbox" name="checkboxTrafficPanel" />
 						Traffic jam </label>
-											<script>
+					<script>
 						$("input[name='checkboxTrafficPanel']").click(function() {
 
 							if ($(this).is(":checked")) {
@@ -88,7 +88,7 @@
 					<label>
 						<input type="checkbox" name="checkboxTrainPanel" />
 						Train delay </label>
-											<script>
+					<script>
 						$("input[name='checkboxTrainPanel']").click(function() {
 
 							if ($(this).is(":checked")) {
@@ -119,27 +119,50 @@
 					</div>
 				</form>
 			</div>
-			<article data-role="content">
-				<div class="choice_list">
-					<h1>Settings</h1>
+			<div data-role="fieldcontain" >
+				<fieldset data-role="controlgroup" data-type="horizontal">
 					<ul data-role="listview" data-inset="true">
-						<li>
-							<a href="snow.html" rel="external" data-transition="slidedown"> Snow </a>
-						</li>
-						<li>
-							<a href="rain.html" rel="external" data-transition="slidedown"> Rain</a>
-						</li>
-						<li>
-							<a href="traffic.html" rel="external" data-transition="slidedown"> Traffic jam </a>
-						</li>
-						<li>
-							<a href="train.html" rel="external" data-transition="slidedown"> Train </a>
+						<li data-inset="true">
+							How much earlier do you want the alarm to go off?
 						</li>
 					</ul>
-				</div>
-			</article>
-		</div><!-- page -->
+					<select name="train-select-choice-hour" id="train-select-choice-hour">
+						<option>Hour(s)</option>
+					</select>
+					<script>
+						$("#train-select-choice-hour").change(function() {
+							localStorage.setItem("trainHours", this.value);
+						});
+					</script>
 
+					<select name="train-select-choice-minutes" id="train-select-choice-minutes">
+						<option>Minute(s)</option>
+					</select>
+
+					<script>
+						$("#train-select-choice-minutes").change(function() {
+							localStorage.setItem("trainMinutes", this.value);
+						});
+					</script>
+				</fieldset>
+			</div>
+			<ul data-role="listview" data-inset="true" data-role="controlgroup">
+				<label>
+					<input type="checkbox" name="traincheckboxWarning" />
+					Use train warning </label>
+				<script>
+					$("input[name='traincheckboxWarning']").click(function() {
+
+						if ($(this).is(":checked")) {
+							localStorage.setItem("traincheckboxWarning", $(this).val());
+						} else {
+							localStorage.removeItem("traincheckboxWarning");
+						}
+
+					});
+				</script>
+			</ul>
+		</div><!-- page -->
 		<script type="text/javascript">
 			jsalarm.init()
 

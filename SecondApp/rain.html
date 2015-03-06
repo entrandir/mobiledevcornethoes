@@ -10,11 +10,12 @@
 		1.4.5.min.js"></script>
 		<script src ="jsalarm.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link rel="stylesheet" href="background.css" />
+		<script src = "storage.js"></script>
 		<script src = "panelStorageLoad.js"></script>
+		<link rel="stylesheet" href="background.css" />
 	</head>
 	<body>
-		<div data-role="page" id="home" data-add-back-btn="true">
+		<div data-role="page" id="rain" data-add-back-btn="true">
 			<header data-role="header">
 				<a href="#myPanel" class="ui-btn ui-btn-inline">Debug</a>
 				<h1>Second App</h1>
@@ -38,10 +39,9 @@
 							<span id="jsalarm_ct" style="letter-spacing: 2px"></span>
 						</div>
 				</form>
-
 			</header>
 			<div data-role="panel" id="myPanel" data-display="overlay">
-				<h2>Weather options</h2>
+<h2>Weather options</h2>
 				<ul data-role="listview" data-inset="true">
 					<label>
 						<input type="checkbox" name="checkboxSnowPanel" />
@@ -119,27 +119,50 @@
 					</div>
 				</form>
 			</div>
-			<article data-role="content">
-				<div class="choice_list">
-					<h1>Settings</h1>
+			<div data-role="fieldcontain" >
+				<fieldset data-role="controlgroup" data-type="horizontal">
 					<ul data-role="listview" data-inset="true">
-						<li>
-							<a href="snow.html" rel="external" data-transition="slidedown"> Snow </a>
-						</li>
-						<li>
-							<a href="rain.html" rel="external" data-transition="slidedown"> Rain</a>
-						</li>
-						<li>
-							<a href="traffic.html" rel="external" data-transition="slidedown"> Traffic jam </a>
-						</li>
-						<li>
-							<a href="train.html" rel="external" data-transition="slidedown"> Train </a>
+						<li data-inset="true">
+							How much earlier do you want the alarm to go off?
 						</li>
 					</ul>
-				</div>
-			</article>
-		</div><!-- page -->
+					<select name="rain-select-choice-hour" id="rain-select-choice-hour">
+						<option>Hour(s)</option>
+					</select>
+					<script>
+						$("#rain-select-choice-hour").change(function() {
+							localStorage.setItem("rainHours", this.value);
+						});
+					</script>
 
+					<select name="rain-select-choice-minutes" id="rain-select-choice-minutes">
+						<option>Minute(s)</option>
+					</select>
+
+					<script>
+						$("#rain-select-choice-minutes").change(function() {
+							localStorage.setItem("rainMinutes", this.value);
+						});
+					</script>
+				</fieldset>
+			</div>
+			<ul data-role="listview" data-inset="true" data-role="controlgroup">
+				<label>
+					<input type="checkbox" name="raincheckboxWarning" />
+					Use rain warning </label>
+				<script>
+					$("input[name='raincheckboxWarning']").click(function() {
+
+						if ($(this).is(":checked")) {
+							localStorage.setItem("raincheckboxWarning", $(this).val());
+						} else {
+							localStorage.removeItem("raincheckboxWarning");
+						}
+
+					});
+				</script>
+			</ul>
+		</div><!-- page -->
 		<script type="text/javascript">
 			jsalarm.init()
 
